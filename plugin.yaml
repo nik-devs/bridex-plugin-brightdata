@@ -1,0 +1,29 @@
+# brightdata — web access for agents: pages behind bot walls, search, an
+# interactive remote browser and residential proxies, through one Bright Data
+# account. kind "integration": it registers a web-access provider with the core
+# (web_fetch and the browser use it on a wall), records usage and shows the
+# account balance on the dashboard.
+name: brightdata
+title: Bright Data
+version: 0.1.0
+kind: integration
+description: Opens sites that block bots (captcha, «checking your browser») for web_fetch and the browser, searches Google/Bing, gives agents an interactive remote browser and proxies — on your Bright Data account.
+agent_notes: web_fetch and browser_navigate already go through it on a bot wall. Its own tools — brightdata_balance, brightdata_zones, brightdata_scrape, brightdata_search — are for steering it yourself. Paid per request / traffic.
+entry: index.mjs
+requires_env:
+  - BRIGHTDATA_API_KEY
+config_schema:
+  type: object
+  properties:
+    api_key:
+      type: string
+      title: API key
+      secret: true
+      credential: BRIGHTDATA_API_KEY
+      placeholder: "${BRIGHTDATA_API_KEY}"
+      description: Bright Data → Account settings → API keys. Leave empty to use the key from Settings → Integrations
+    daily_budget_usd:
+      type: number
+      title: Daily budget, USD
+      default: 5
+      description: Paid calls stop for the day once the account has spent this much (the owner is told)
